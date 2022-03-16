@@ -11,6 +11,6 @@ Fitur pada script :
 - Read file
 - Hack Satelit
 
-[+] Version : 0.2
-[+] Version selanjutnya mungkin ada tambahan fitur dan warna.
-[+] Key : whatudoing
+[+] Version : 0.2 <br>
+[+] Version selanjutnya mungkin ada tambahan fitur dan warna. <br>
+[+] Key : whatudoing <br>
