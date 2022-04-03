@@ -1,5 +1,3 @@
-#!/usr/bin/python -tt
-
 import sys, os, requests, shutil, platform, psutil, subprocess, socket, speedtest, time, os.path
 from requests import get
 from playsound import playsound
