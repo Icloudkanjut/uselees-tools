@@ -1,9 +1,12 @@
-import sys, os, requests, shutil, platform, psutil, subprocess, socket, speedtest, time
+#!/usr/bin/python -tt
+
+import sys, os, requests, shutil, platform, psutil, subprocess, socket, speedtest, time, os.path
 from requests import get
+from playsound import playsound
 
 speed = speedtest.Speedtest()
 
-version = "0.2"
+version = "0.3"
 
 banner = """[ Welcome to Uselees Tools by @fooster1337 on github ]
 [ Why You Using This Tools? ]
@@ -18,6 +21,9 @@ banner = """[ Welcome to Uselees Tools by @fooster1337 on github ]
 [7] Script Deface Generator
 [8] Read file
 [9] Hack Satelit
+[10] Play sound / music
+[11] Create shorcut whatsapp
+[12] Youtube Downloader
 [99] About
 [00] Exit
 """.format(version)
@@ -318,6 +324,136 @@ def read_file():
     input("[*] Press enter for back to main menu")
     main()
 
+def ytdownloader_check():
+    print("[*] Checking youtube-dl...")
+    if os.path.isfile("/usr/bin/youtube-dl"):
+        print("[*] Already installed!")
+        time.sleep(1.5)
+    else:
+        print("[x] youtube-dl is not installed, please install on you system...")
+        exit()
+
+    print("[*] Checking ffmpeg...")
+    if os.path.isfile("/usr/bin/ffmpeg"):
+        print("[*] Already installed")
+        time.sleep(1.5)
+        ytdownloader()
+    else:  
+        print("[x] ffmpeg is not installed, please install on you system...")
+        exit()
+
+def playsoundmusic():
+    print("[-- Play Music --]")
+    file_input = input("[?] Music file : ")
+    print("[*] Playing music :", file_input)
+    playsound(file_input)
+    input("[*] Press enter for back to main menu")
+    main()
+
+def shortcutwa():
+    print("[-- Shorcut Whatsapp --]")
+    no = input("[?] No Wa [62xxx] : ")
+    text = input("[?] Text yang akan dikirim ke nomor : ")
+    link = """https://api.whatsapp.com/send?phone={}&text={}""".format(no, text)
+    print("[*] Shorcut :", link)
+    input("[*] Press enter for back to main menu")
+    main()
+
+def single_url_yt():
+    print("[-- Single url ]")
+    linkyt = input("[?] Yt Link : ")
+    os.system("youtube-dl -o '(%title)s | %(upload)s.%(ext)s' --format mp4 {}".format(linkyt))
+    input("[*] Press enter for back to main menu")
+    main()
+
+def down_from_list_yt():
+    print("[-- Download From List --]")
+    file = input("[?] Location file : ")
+    f = open(file, 'r')
+    line_count = 0
+    for line in f:
+        if line != "\n":
+            line_count += 1
+    f.close()
+    print("[+] {} Link Found!".format(line_count))
+    mp = input("[?] audio / mp4 : ")
+    if mp == "audio":
+        print("[*] Audio Downloading...")
+        os.system("youtube-dl -o '%(title)s | %(uploader)s.%(ext)s' -x --audio-format mp3 -a {}".format(file))
+        input("[*] Press enter for back to main menu")
+        main()
+    elif mp == "mp4":
+        print("[*] MP4 Downloading...")
+        os.system("youtube-dl -o '%(title)s | %(uploader)s.%(ext)s' --format mp4 -a {}".format(file))
+        input("[*] Press enter for back to main menu")
+        main()
+    else:
+        print("[!] Not found!.")
+        time.sleep(2)
+        down_from_list_yt()
+
+def url_downloader_yt():
+    print("[-- 2 Url Downloader --]")
+    link1 = input("[?] Link 1 : ")
+    link2 = input("[?] Link 2 : ")
+    mp1 = input("[?] audio / MP4 : ")
+    if mp1 == "audio":
+        print("[*] Audio Downloading...")
+        os.system("youtube-dl -x --audio-format mp3 -o '%(title)s | %(upload)s.%(ext)s' {} {}".format(link1, link2))
+        input("[*] Press enter for back to main menu")
+        main()
+    elif mp1 == "mp4":
+        print("[*] MP4 Downloading..")
+        os.system("youtube-dl --format mp4 -o '%(title)s | %(upload)s.%(ext)s' {} {}".format(link1, link2))
+        input("[*] Press enter for back to main menu")
+        main()
+
+    else:
+        print("[!] Not found!")
+        time.sleep(2)
+        url_downloader_yt()
+
+def audio_only_yt():
+    print("[-- Audio only --]")
+    linkyt = input("[?] Yt Link : ")
+    os.system("youtube-dl -o '%(title)s | %(upload)s.%(ext)s' -x --audio-format mp3 {}".format(linkyt))
+    input("[*] Press enter for back to main menu")
+    main()
+ 
+def high_q_a_yt():
+    print("[-- High Quality + Audio --]")
+    linkyt = input("[?] Link Yt : ")
+    os.system("youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]' -o '%(title)s | %(upload)s.%(ext)s' {}".format(linkyt))
+    input("[*] Press enter for back to main menu")
+    main()
+
+def ytdownloader():
+    os.system("clear")
+    menu = """
+[1] Single url download (.mp4)
+[2] Download from list (.txt) (.mp4 + audio)
+[3] 2 url downloader (.mp4 + audio)
+[4] Download audio only
+[5] Download with High quality and audio (.mp4 + audio)
+"""
+    print("[-- Yt Downloader --]")
+    print(menu)
+    mn = input("[?] Choose : ")
+    if mn == "1":
+        single_url_yt()
+    elif mn == "2":
+        down_from_list_yt()
+    elif mn == "3":
+        url_downloader_yt()
+    elif mn == "4":
+        audio_only_yt()
+    elif mn == "5":
+        high_q_a_yt()
+    else:
+        print("[!] Not found.")
+        time.sleep(1)
+        ytdownloader()
+
 def main():
     os.system("clear")
     print(banner)
@@ -340,6 +476,12 @@ def main():
         read_file()
     elif menu == "9":
         hack_satelit()
+    elif menu == "10":
+        playsoundmusic()
+    elif menu == "11":
+        shortcutwa()
+    elif menu == "12":
+        ytdownloader_check()
     elif menu == "99":
         about()
     elif menu == "00":
