@@ -2,7 +2,7 @@ import sys, os, requests, shutil, platform, psutil, subprocess, socket, speedtes
 from requests import get
 from playsound import playsound
 
-speed = speedtest.speedtest()
+speed = speedtest.Speedtest()
 
 version = "0.3"
 
